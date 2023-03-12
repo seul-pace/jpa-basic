@@ -27,19 +27,47 @@ public class JpaMain {
 //            member.setName("HelloB");
 //            em.persist(findMember);
 
-            // 찾기
-            Member findMember = em.find(Member.class, 1L);
+//            // 찾기
+//            Member findMember = em.find(Member.class, 1L);
+//
+//            // JPQL
+//            // JPA 가 Member 객체를 대상으로 쿼리를 짠 것이다
+//            List<Member> result = em.createQuery("select m from Member as m", Member.class).getResultList();
+//
+//            for (Member member : result) {
+//                System.out.println("member.name = " + member.getName());
+//            }
+//
+//            // 수정 (트랜잭션 커밋 시점에 알아채고 업데이트)
+//            findMember.setName("HelloJPA");
 
-            // JPQL
-            // JPA 가 Member 객체를 대상으로 쿼리를 짠 것이다
-            List<Member> result = em.createQuery("select m from Member as m", Member.class).getResultList();
+            // 영속
+//            Member member1 = new Member(150L, "A");
+//            Member member2 = new Member(160L, "B");
+//
+//            em.persist(member1);
+//            em.persist(member2);
+//
+//            System.out.println("========");
 
-            for (Member member : result) {
-                System.out.println("member.name = " + member.getName());
-            }
+            // 플러시
+//            Member member = new Member(200L, "member200");
+//            em.persist(member);
+//
+//            // 쓰기 지연 SQL 저장소에 쌓인 애들이 DB에 반영됨 = 영속성 컨텍스트의 변경 내용을 DB에 동기화
+//            em.flush();
+//
+//            System.out.println("-----------");
 
-            // 수정 (트랜잭션 커밋 시점에 알아채고 업데이트)
-            findMember.setName("HelloJPA");
+            Member member = em.find(Member.class, 150L);
+            member.setName("zzzzz");
+
+            // 준영속
+//            em.detach(member);
+            em.clear();
+
+            // 지웠으니까 다시 조회해온 거임
+            Member member2 = em.find(Member.class, 150L);
 
             tx.commit();
         } catch (Exception e) {
